@@ -2,10 +2,6 @@ public class Task {
     private final String description;
     private boolean isComplete;
 
-    public String getDescription() {
-        return this.description;
-    }
-
     public boolean getIsComplete() {
         return this.isComplete;
     }
@@ -21,5 +17,10 @@ public class Task {
     public Task(String description) {
         this.description = description;
         this.isComplete = false;
+    }
+
+    @Override
+    public String toString() {
+        return this.description;
     }
 }

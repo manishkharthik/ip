@@ -46,9 +46,9 @@ public class Salah {
                 int num = 1;
                 for (Task task : userTasks) {
                     if (task.getIsComplete()) {
-                        System.out.println(num + ". [X] " + task.getDescription());
+                        System.out.println(num + ". " + task.toString());
                     } else {
-                        System.out.println(num + ". [ ] " + task.getDescription());
+                        System.out.println(num + ". " + task.toString());
                     }
                     num++;
                 }
@@ -63,7 +63,7 @@ public class Salah {
                     currentTask.markAsComplete();
                     System.out.println("------------------------------------------------------------------------");
                     System.out.println("This task is marked as complete. Well done!");
-                    System.out.println("[X] " + currentTask.getDescription());
+                    System.out.println(currentTask.toString());
                     System.out.println("------------------------------------------------------------------------");
                 } else {
                     throw new IndexOutOfBoundsException("Invalid task number.");
@@ -78,20 +78,42 @@ public class Salah {
                     currentTask.markAsIncomplete();
                     System.out.println("------------------------------------------------------------------------");
                     System.out.println("Task has been marked as incomplete.");
-                    System.out.println("[ ] " + currentTask.getDescription());
+                    System.out.println(currentTask.toString());
                     System.out.println("------------------------------------------------------------------------");
                 } else {
                     throw new IndexOutOfBoundsException("Invalid task number.");
                 }
 
-            // For any other input, simply add the input as a new task
+            // Create a Deadline task
+            } else if (input.startsWith("deadline")) {
+                // Call the parser method and pass into Deadlines constructor
+                Deadlines deadlineTask = Deadlines.parser(input);
+                userTasks.add(deadlineTask);
+                System.out.println("------------------------------------------------------------------------");
+                System.out.println("added: " + deadlineTask.toString());
+                System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");
+                System.out.println("----------------------------------------------------------------i--------");
+            
+            // Create an Events task
+            } else if (input.startsWith("event")) {
+                // Call the parser method and pass into Events constructor
+                Events eventTask = Events.parser(input);
+                userTasks.add(eventTask);
+                System.out.println("------------------------------------------------------------------------");
+                System.out.println("added: " + eventTask.toString());
+                System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");
+                System.out.println("------------------------------------------------------------------------");
+            
+            // For any other input, simply add the input as a new todo task 
             } else {
+                // Call the parser method and pass into ToDos constructor
+                ToDos todoTask = ToDos.parser(input);
+                userTasks.add(todoTask);
                 System.out.println("------------------------------------------------------------------------");
-                Task newTask = new Task(input);
-                userTasks.add(newTask);
-                System.out.println("added: " + input);
+                System.out.println("added: " + todoTask.toString());
+                System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");
                 System.out.println("------------------------------------------------------------------------");
-            }
+                }
         }
         // Close the scanner
         scan.close();
