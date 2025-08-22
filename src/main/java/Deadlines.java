@@ -6,10 +6,19 @@ public class Deadlines extends Task {
         this.by = by;
     }
 
-    public static Deadlines parser(String input) {
+    public static Deadlines parser(String input) throws EmptyDescriptionException, TaskFormattingException{
+        if (!input.contains("/by")) {
+            throw new TaskFormattingException("Invalid deadline format. Make sure to include /by");
+        }
         String[] parts = input.substring(8).split("/by", 2);
         String description = parts[0].trim();
         String by = parts[1].trim();
+        if (description.isEmpty()) {
+            throw new EmptyDescriptionException("Description cannot be empty.");
+        }
+        if (by.isEmpty()) {
+            throw new EmptyDescriptionException("Deadline cannot be empty.");
+        }
         return new Deadlines(description, by);
     }
 

@@ -3,10 +3,21 @@ public class ToDos extends Task {
         super(description);
     }
 
-    public static ToDos parser(String input) {
-        String description = input.startsWith("todo")
-                    ? input.substring(5).trim()
-                    : input;
+    public static ToDos parser(String input) throws EmptyDescriptionException {
+        String description;
+        if (input.toLowerCase().startsWith("todo")) {
+            // if input is exactly "todo" or "todo " then description is empty
+            if (input.length() <= 4) {
+                description = "";
+            } else {
+                description = input.substring(4).trim(); 
+            }
+        } else {
+            description = input.trim();
+        }
+        if (description.isEmpty()) {
+            throw new EmptyDescriptionException("Description cannot be empty.");
+        }
         return new ToDos(description);
     }
 

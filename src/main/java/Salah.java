@@ -58,62 +58,79 @@ public class Salah {
             } else if (input.startsWith("mark")) {
                 int index = Integer.parseInt(input.substring(5)) - 1;
                 // Check if index is valid, if not throw out of bounds exception
-                if (index >= 0 && index < userTasks.size()) {
+                try {
                     Task currentTask = userTasks.get(index);
                     currentTask.markAsComplete();
                     System.out.println("------------------------------------------------------------------------");
                     System.out.println("This task is marked as complete. Well done!");
                     System.out.println(currentTask.toString());
+                } catch (IndexOutOfBoundsException e) {
                     System.out.println("------------------------------------------------------------------------");
-                } else {
-                    throw new IndexOutOfBoundsException("Invalid task number.");
+                    System.out.println("Error: the input number has exceeded the number of tasks.");
                 }
+                System.out.println("------------------------------------------------------------------------");
 
             // Mark a task as incomplete, taking the task number as input
             } else if (input.startsWith("unmark")) {
                 int index = Integer.parseInt(input.substring(7)) - 1;
                 // Check if index is valid, if not throw out of bounds exception
-                if (index >= 0 && index < userTasks.size()) {
+                try {
                     Task currentTask = userTasks.get(index);
                     currentTask.markAsIncomplete();
                     System.out.println("------------------------------------------------------------------------");
                     System.out.println("Task has been marked as incomplete.");
                     System.out.println(currentTask.toString());
+                } catch (IndexOutOfBoundsException e) {
                     System.out.println("------------------------------------------------------------------------");
-                } else {
-                    throw new IndexOutOfBoundsException("Invalid task number.");
+                    System.out.println("Error: the input number has exceeded the number of tasks.");
                 }
+                System.out.println("------------------------------------------------------------------------");
 
             // Create a Deadline task
             } else if (input.startsWith("deadline")) {
                 // Call the parser method and pass into Deadlines constructor
-                Deadlines deadlineTask = Deadlines.parser(input);
-                userTasks.add(deadlineTask);
+                try {
+                    Deadlines deadlineTask = Deadlines.parser(input);
+                    userTasks.add(deadlineTask);
+                    System.out.println("------------------------------------------------------------------------");
+                    System.out.println("added: " + deadlineTask.toString());
+                    System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");
+                } catch (EmptyDescriptionException | TaskFormattingException e) {
+                    System.out.println("------------------------------------------------------------------------");
+                    System.out.println("Error: " + e.getMessage());
+                }
                 System.out.println("------------------------------------------------------------------------");
-                System.out.println("added: " + deadlineTask.toString());
-                System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");
-                System.out.println("----------------------------------------------------------------i--------");
-            
+
             // Create an Events task
             } else if (input.startsWith("event")) {
                 // Call the parser method and pass into Events constructor
-                Events eventTask = Events.parser(input);
-                userTasks.add(eventTask);
-                System.out.println("------------------------------------------------------------------------");
-                System.out.println("added: " + eventTask.toString());
-                System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");
+                try {
+                    Events eventTask = Events.parser(input);
+                    userTasks.add(eventTask);
+                    System.out.println("------------------------------------------------------------------------");
+                    System.out.println("added: " + eventTask.toString());
+                    System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");
+                } catch (EmptyDescriptionException | TaskFormattingException e) {
+                    System.out.println("------------------------------------------------------------------------");
+                    System.out.println("Error: " + e.getMessage());
+                }
                 System.out.println("------------------------------------------------------------------------");
             
             // For any other input, simply add the input as a new todo task 
             } else {
                 // Call the parser method and pass into ToDos constructor
-                ToDos todoTask = ToDos.parser(input);
-                userTasks.add(todoTask);
-                System.out.println("------------------------------------------------------------------------");
-                System.out.println("added: " + todoTask.toString());
-                System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");
-                System.out.println("------------------------------------------------------------------------");
+                try {
+                    ToDos todoTask = ToDos.parser(input);
+                    userTasks.add(todoTask);
+                    System.out.println("------------------------------------------------------------------------");
+                    System.out.println("added: " + todoTask.toString());
+                    System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");
+                } catch (EmptyDescriptionException e) {
+                    System.out.println("------------------------------------------------------------------------");
+                    System.out.println("Error: " + e.getMessage());
                 }
+                System.out.println("------------------------------------------------------------------------");
+            }
         }
         // Close the scanner
         scan.close();
