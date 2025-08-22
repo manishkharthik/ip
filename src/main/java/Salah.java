@@ -32,14 +32,14 @@ public class Salah {
             String input = scan.nextLine();
 
             // Exit message if input is "bye"
-            if (input.equals("bye")) {
+            if (input.equals(CommandType.BYE.keyword())) {
                 System.out.println("------------------------------------------------------------------------");
                 System.out.println("Hope you have a great day! Remember, you'll never walk alone :))");
                 System.out.println("------------------------------------------------------------------------");
                 break;
             
             // Delete task
-            } else if (input.startsWith("delete")) {
+            } else if (input.startsWith(CommandType.DELETE.keyword())) {
                 int index = Integer.parseInt(input.substring(7)) - 1;
                 // Check if index is valid, if not throw out of bounds exception
                 try {
@@ -54,8 +54,9 @@ public class Salah {
                     System.out.println("Error: the input number has exceeded the number of tasks.");
                 }
                 System.out.println("------------------------------------------------------------------------");
+            
             // List all tasks if input is "list"
-            } else if (input.equals("list")) {
+            } else if (input.equals(CommandType.LIST.keyword())) {
                 System.out.println("------------------------------------------------------------------------");
                 System.out.println("The Egyptian King has these tasks for you to complete:");
                 // Include task number, description and completion status in output
@@ -71,7 +72,7 @@ public class Salah {
                 System.out.println("------------------------------------------------------------------------");
 
             // Mark a task as complete, taking the task number as input
-            } else if (input.startsWith("mark")) {
+            } else if (input.startsWith(CommandType.MARK.keyword())) {
                 int index = Integer.parseInt(input.substring(5)) - 1;
                 // Check if index is valid, if not throw out of bounds exception
                 try {
@@ -87,7 +88,7 @@ public class Salah {
                 System.out.println("------------------------------------------------------------------------");
 
             // Mark a task as incomplete, taking the task number as input
-            } else if (input.startsWith("unmark")) {
+            } else if (input.startsWith(CommandType.UNMARK.keyword())) {
                 int index = Integer.parseInt(input.substring(7)) - 1;
                 // Check if index is valid, if not throw out of bounds exception
                 try {
@@ -103,7 +104,7 @@ public class Salah {
                 System.out.println("------------------------------------------------------------------------");
 
             // Create a Deadline task
-            } else if (input.startsWith("deadline")) {
+            } else if (input.startsWith(CommandType.DEADLINE.keyword())) {
                 // Call the parser method and pass into Deadlines constructor
                 try {
                     Deadlines deadlineTask = Deadlines.parser(input);
@@ -118,7 +119,7 @@ public class Salah {
                 System.out.println("------------------------------------------------------------------------");
 
             // Create an Events task
-            } else if (input.startsWith("event")) {
+            } else if (input.startsWith(CommandType.EVENT.keyword())) {
                 // Call the parser method and pass into Events constructor
                 try {
                     Events eventTask = Events.parser(input);
