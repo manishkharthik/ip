@@ -37,7 +37,23 @@ public class Salah {
                 System.out.println("Hope you have a great day! Remember, you'll never walk alone :))");
                 System.out.println("------------------------------------------------------------------------");
                 break;
-
+            
+            // Delete task
+            } else if (input.startsWith("delete")) {
+                int index = Integer.parseInt(input.substring(7)) - 1;
+                // Check if index is valid, if not throw out of bounds exception
+                try {
+                    Task currentTask = userTasks.get(index);
+                    System.out.println("------------------------------------------------------------------------");
+                    System.out.println("The Egyptian king has removed this task:");
+                    System.out.println(currentTask.toString());
+                    System.out.println("There are still " + userTasks.size() + " tasks in your list!");
+                    userTasks.remove(index);
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("------------------------------------------------------------------------");
+                    System.out.println("Error: the input number has exceeded the number of tasks.");
+                }
+                System.out.println("------------------------------------------------------------------------");
             // List all tasks if input is "list"
             } else if (input.equals("list")) {
                 System.out.println("------------------------------------------------------------------------");
