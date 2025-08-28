@@ -1,29 +1,54 @@
+/**
+ * Represents an event task with a description,
+ * a start datetime, and an end datetime.
+ */
+
 package salah;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Event task with start and end times.
+ */
 public class Events extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;
     private static final DateTimeFormatter PRETTY_DATE = DateTimeFormatter.ofPattern("MMM dd uuuu");
 
+    /**
+     * Constructs an {@code Events} task.
+     *
+     * @param description description of the event
+     * @param from start date/time
+     * @param to end date/time
+     */
     public Events(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.from = from;
         this.to = to;
     }
 
-    public LocalDateTime getFrom() { 
-        return this.from; 
+    /** @return the start date/time of this event */
+    public LocalDateTime getFrom() {
+        return this.from;
     }
 
-    public LocalDateTime getTo() { 
-        return this.to; 
+    /** @return the start date/time of this event */
+    public LocalDateTime getTo() {
+        return this.to;
     }
 
-    // converts input from user to be displayed
-    public static Events parser(String input) throws EmptyDescriptionException, TaskFormattingException{
+    /**
+     * Parses a user input string into an {@code Events} task.
+     * Expected shape: {@code event <desc> /from <start> /to <end>}.
+     *
+     * @param input raw user input
+     * @return a new {@code Events}
+     * @throws EmptyDescriptionException if description/from/to are empty
+     * @throws TaskFormattingException if the format is invalid or start is after end
+     */
+     public static Events parser(String input) throws EmptyDescriptionException, TaskFormattingException{
         if (!input.contains("/from") || !input.contains("/to")) {
             throw new TaskFormattingException("Invalid event format. Make sure to include /from and /to");
         }
@@ -48,6 +73,7 @@ public class Events extends Task {
         return new Events(description, fromDate, toDate);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "[E]" + (this.getIsComplete() ? "[X] " : "[ ] ")
@@ -56,20 +82,33 @@ public class Events extends Task {
                 + " to: " + DateTimeParser.formatPretty(this.to) + ")";
     }
 
-    // converts object to string for saving
+    /**
+     * Serializes this event to a line suitable for saving to disk.
+     * Format: {@code E | doneFlag | description | fromISO | toISO}
+     */
     @Override
     public String serialize() {
         return "E | " + (getIsComplete() ? "1" : "0") + " | " + getDescription() + " | " + from + " | " + to;
     }
 
-    // converts string from file to object
+    /**
+     * Reconstructs an {@code Events} task from serialized parts.
+     *
+     * @param parts tokenized line from storage
+     * @return reconstructed event
+     * @throws IllegalArgumentException if the datetime tokens are not parseable
+     */
     public static Events fromData(String[] parts) {
         boolean done = parts[1].trim().equals("1");
         String desc = parts[2].trim();
+
         LocalDateTime from = LocalDateTime.parse(parts[3].trim());
         LocalDateTime to   = LocalDateTime.parse(parts[4].trim());
+
         Events e = new Events(desc, from, to);
-        if (done) e.markAsComplete();
+        if (done) {
+            e.markAsComplete();
+        }
         return e;
     }
 }
