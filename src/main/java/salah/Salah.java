@@ -1,3 +1,5 @@
+package salah;
+
 import java.util.ArrayList;
 
 public class Salah {

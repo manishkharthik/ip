@@ -1,3 +1,5 @@
+package salah;
+
 public enum CommandType {
     BYE("bye"),
     LIST("list"),
