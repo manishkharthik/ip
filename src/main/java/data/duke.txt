@@ -1,4 +1,3 @@
-T | 0 | thats crazy
-T | 0 | okok i see you
+T | 1 | okok i see you
 D | 0 | submit report | 2019-12-15T18:00
 E | 0 | project meeting | 2019-12-02T14:00 | 2019-12-02T16:00
