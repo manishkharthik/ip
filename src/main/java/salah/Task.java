@@ -1,39 +1,88 @@
+/**
+ * Abstract representation of a task.
+ * Contains common properties like description and completion status.
+ */
+
 package salah;
 
+/**
+ * Base class for all tasks.
+ */
 public abstract class Task {
+    /** The textual description of the task. */
     private final String description;
+    /** Whether the task is marked as complete. */
     private boolean isComplete;
 
+    /**
+     * Returns whether this task is complete.
+     *
+     * @return {@code true} if the task is complete, {@code false} otherwise
+     */
     public boolean getIsComplete() {
         return this.isComplete;
     }
 
+    /** Marks this task as complete. */
     public void markAsComplete() {
         this.isComplete = true;
     }
 
+    /** Marks this task as incomplete. */
     public void markAsIncomplete() {
         this.isComplete = false;
     }
 
+    /**
+     * Constructs a new {@code Task} with the given description.
+     * Tasks are initially marked as incomplete.
+     *
+     * @param description textual description of the task
+     */
     public Task(String description) {
         this.description = description;
         this.isComplete = false;
     }
 
+    /**
+     * Returns the description of this task.
+     *
+     * @return description of the task
+     */
     public String getDescription() {
         return this.description;
     }
 
+    /**
+     * Returns the string representation of this task.
+     * By default, returns only the description.
+     *
+     * @return string representation of the task
+     */
     @Override
     public String toString() {
         return this.description;
     }
 
-    // converts object to string for saving
+    /**
+     * Serializes this task into a string suitable for saving to disk.
+     *
+     * @return serialized string representation of this task
+     */
     public abstract String serialize();
 
-    // converts string from file to object by calling functions in subclasses
+    /**
+     * Deserializes a line from the save file into a {@code Task}.
+     * Delegates to the appropriate subclass based on the type code.
+     * <ul>
+     *   <li>"T" → {@link ToDos}</li>
+     *   <li>"D" → {@link Deadlines}</li>
+     *   <li>"E" → {@link Events}</li>
+     * </ul>
+     *
+     * @param line the serialized task line
+     * @return the corresponding {@code Task}, or {@code null} if type is unrecognized
+     */
     public static Task deserialize(String line) {
         String[] parts = line.split("\\|");
         for (int i = 0; i < parts.length; i++) parts[i] = parts[i].trim();
