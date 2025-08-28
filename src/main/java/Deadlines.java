@@ -6,6 +6,7 @@ public class Deadlines extends Task {
         this.by = by;
     }
 
+    // converts input from user to be displayed
     public static Deadlines parser(String input) throws EmptyDescriptionException, TaskFormattingException{
         if (!input.contains("/by")) {
             throw new TaskFormattingException("Invalid deadline format. Make sure to include /by");
@@ -25,5 +26,21 @@ public class Deadlines extends Task {
     @Override
     public String toString() {
         return "[D]" + (this.getIsComplete() ? "[X] " : "[ ] ") + super.toString() + " (by: " + this.by + ")";
+    }
+
+    // converts object to string for saving
+    @Override
+    public String serialize() {
+        return "D | " + (getIsComplete() ? "1" : "0") + " | " + getDescription() + " | " + by;
+    }
+
+    // converts string from file to object
+    public static Deadlines fromData(String[] parts) {
+        boolean done = parts[1].trim().equals("1");
+        String desc = parts[2].trim();
+        String by = parts[3].trim();
+        Deadlines deadline = new Deadlines(desc, by);
+        if (done) deadline.markAsComplete();
+        return deadline;
     }
 }
