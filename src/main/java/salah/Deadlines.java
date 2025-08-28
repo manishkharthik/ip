@@ -1,4 +1,5 @@
-// Source code is decompiled from a .class file using FernFlower decompiler.
+package salah;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
