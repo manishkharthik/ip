@@ -47,8 +47,8 @@ public class Salah {
                     System.out.println("------------------------------------------------------------------------");
                     System.out.println("The Egyptian king has removed this task:");
                     System.out.println(currentTask.toString());
-                    System.out.println("There are still " + userTasks.size() + " tasks in your list!");
                     userTasks.remove(index);
+                    System.out.println("There are still " + userTasks.size() + " tasks in your list!");
                     Storage.save(userTasks);
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("------------------------------------------------------------------------");

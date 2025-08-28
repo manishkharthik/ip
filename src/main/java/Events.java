@@ -1,11 +1,23 @@
-public class Events extends Task {
-    private final String from;
-    private final String to;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-    public Events(String description, String from, String to) {
+public class Events extends Task {
+    private final LocalDateTime from;
+    private final LocalDateTime to;
+    private static final DateTimeFormatter PRETTY_DATE = DateTimeFormatter.ofPattern("MMM dd uuuu");
+
+    public Events(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.from = from;
         this.to = to;
+    }
+
+    public LocalDateTime getFrom() { 
+        return this.from; 
+    }
+
+    public LocalDateTime getTo() { 
+        return this.to; 
     }
 
     // converts input from user to be displayed
@@ -17,6 +29,7 @@ public class Events extends Task {
         String description = parts[0].trim();
         String from = parts[1].trim();
         String to = parts[2].trim();
+
         if (description.isEmpty()) {
             throw new EmptyDescriptionException("Description cannot be empty.");
         }
@@ -26,12 +39,19 @@ public class Events extends Task {
         if (to.isEmpty()) {
             throw new EmptyDescriptionException("End time cannot be empty.");
         }
-        return new Events(description, from, to);
+
+        LocalDateTime fromDate = DateTimeParser.parseFlexible(from);
+        LocalDateTime toDate = DateTimeParser.parseFlexible(to);
+
+        return new Events(description, fromDate, toDate);
     }
 
     @Override
     public String toString() {
-        return "[E]" + (this.getIsComplete() ? "[X] " : "[ ] ") + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
+        return "[E]" + (this.getIsComplete() ? "[X] " : "[ ] ")
+                + super.toString()
+                + " (from: " + DateTimeParser.formatPretty(this.from)
+                + " to: " + DateTimeParser.formatPretty(this.to) + ")";
     }
 
     // converts object to string for saving
@@ -44,10 +64,10 @@ public class Events extends Task {
     public static Events fromData(String[] parts) {
         boolean done = parts[1].trim().equals("1");
         String desc = parts[2].trim();
-        String from = parts[3].trim();
-        String to = parts[4].trim();
-        Events event = new Events(desc, from, to);
-        if (done) event.markAsComplete();
-        return event;
+        LocalDateTime from = LocalDateTime.parse(parts[3].trim());
+        LocalDateTime to   = LocalDateTime.parse(parts[4].trim());
+        Events e = new Events(desc, from, to);
+        if (done) e.markAsComplete();
+        return e;
     }
 }
