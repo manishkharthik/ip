@@ -4,8 +4,8 @@ import java.util.Scanner;
 public class Salah {
     public static void main(String[] args) {
         // initialise an ArrayList to hold user tasks
-        ArrayList<Task> userTasks = new ArrayList<>();
-        String salah = 
+        ArrayList<Task> userTasks = Storage.load();
+        String salah =
         """
                        /^\\
                       /___\\
@@ -49,6 +49,7 @@ public class Salah {
                     System.out.println(currentTask.toString());
                     System.out.println("There are still " + userTasks.size() + " tasks in your list!");
                     userTasks.remove(index);
+                    Storage.save(userTasks);
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("------------------------------------------------------------------------");
                     System.out.println("Error: the input number has exceeded the number of tasks.");
@@ -78,6 +79,7 @@ public class Salah {
                 try {
                     Task currentTask = userTasks.get(index);
                     currentTask.markAsComplete();
+                    Storage.save(userTasks);
                     System.out.println("------------------------------------------------------------------------");
                     System.out.println("This task is marked as complete. Well done!");
                     System.out.println(currentTask.toString());
@@ -93,6 +95,7 @@ public class Salah {
                 // Check if index is valid, if not throw out of bounds exception
                 try {
                     Task currentTask = userTasks.get(index);
+                    Storage.save(userTasks);
                     currentTask.markAsIncomplete();
                     System.out.println("------------------------------------------------------------------------");
                     System.out.println("Task has been marked as incomplete.");
@@ -109,6 +112,7 @@ public class Salah {
                 try {
                     Deadlines deadlineTask = Deadlines.parser(input);
                     userTasks.add(deadlineTask);
+                    Storage.save(userTasks);
                     System.out.println("------------------------------------------------------------------------");
                     System.out.println("added: " + deadlineTask.toString());
                     System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");
@@ -124,6 +128,7 @@ public class Salah {
                 try {
                     Events eventTask = Events.parser(input);
                     userTasks.add(eventTask);
+                    Storage.save(userTasks);
                     System.out.println("------------------------------------------------------------------------");
                     System.out.println("added: " + eventTask.toString());
                     System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");
@@ -139,6 +144,7 @@ public class Salah {
                 try {
                     ToDos todoTask = ToDos.parser(input);
                     userTasks.add(todoTask);
+                    Storage.save(userTasks);
                     System.out.println("------------------------------------------------------------------------");
                     System.out.println("added: " + todoTask.toString());
                     System.out.println("The Egyptian King detects " + userTasks.size() + " tasks in your list!");

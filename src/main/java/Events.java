@@ -8,6 +8,7 @@ public class Events extends Task {
         this.to = to;
     }
 
+    // converts input from user to be displayed
     public static Events parser(String input) throws EmptyDescriptionException, TaskFormattingException{
         if (!input.contains("/from") || !input.contains("/to")) {
             throw new TaskFormattingException("Invalid event format. Make sure to include /from and /to");
@@ -28,9 +29,25 @@ public class Events extends Task {
         return new Events(description, from, to);
     }
 
-
     @Override
     public String toString() {
         return "[E]" + (this.getIsComplete() ? "[X] " : "[ ] ") + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
+    }
+
+    // converts object to string for saving
+    @Override
+    public String serialize() {
+        return "E | " + (getIsComplete() ? "1" : "0") + " | " + getDescription() + " | " + from + " | " + to;
+    }
+
+    // converts string from file to object
+    public static Events fromData(String[] parts) {
+        boolean done = parts[1].trim().equals("1");
+        String desc = parts[2].trim();
+        String from = parts[3].trim();
+        String to = parts[4].trim();
+        Events event = new Events(desc, from, to);
+        if (done) event.markAsComplete();
+        return event;
     }
 }

@@ -3,6 +3,7 @@ public class ToDos extends Task {
         super(description);
     }
 
+    // converts input from user to be displayed
     public static ToDos parser(String input) throws EmptyDescriptionException {
         String description;
         if (input.toLowerCase().startsWith("todo")) {
@@ -24,5 +25,20 @@ public class ToDos extends Task {
     @Override
     public String toString() {
         return "[T]" + (this.getIsComplete() ? "[X] " : "[ ] ") + super.toString();
+    }
+
+    // converts object to string for saving
+    @Override
+    public String serialize() {
+        return "T | " + (getIsComplete() ? "1" : "0") + " | " + getDescription();
+    }
+
+    // converts string from file to object
+    public static ToDos fromData(String[] parts) {
+        boolean done = parts[1].trim().equals("1");
+        String desc = parts[2].trim();
+        ToDos todo = new ToDos(desc);
+        if (done) todo.markAsComplete();
+        return todo;
     }
 }
