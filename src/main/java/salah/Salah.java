@@ -7,8 +7,8 @@
 
 package salah;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Main application class.
@@ -136,5 +136,12 @@ public class Salah {
         } finally {
             ui.close();
         }
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        return "Salah heard: " + input;
     }
 }
