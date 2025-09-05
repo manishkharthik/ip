@@ -25,13 +25,10 @@ public class Ui {
     }
 
     /**
-     * Shows the greeting banner and ASCII art.
-     *
-     * @param asciiArt ASCII art to display below the greeting
+     * Shows the greeting
      */
-    public void showGreeting(String asciiArt) {
+    public void showGreeting() {
         System.out.println("Hi, I'm Mohammed Salah, The Egyptian King");
-        System.out.println(asciiArt);
         System.out.println("How may I assist you today?");
     }
 
@@ -69,6 +66,12 @@ public class Ui {
         showLine();
         System.out.println("Hope you have a great day! Remember, you'll never walk alone :))");
         showLine();
+        try {
+            Thread.sleep(2000); // wait 2 seconds
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        System.exit(0); // terminate the JVM
     }
 
     /**
