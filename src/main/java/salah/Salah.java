@@ -15,7 +15,7 @@ public class Salah {
 
     /** Greeting text for GUI to show first */
     public String getGreeting() {
-        return "Hi, I'm Mohammed Salah, The Egyptian King \nHow may I assist you today?";
+        return "Hi, I'm Mohammed Salah, The Egyptian King\nHow may I assist you today?";
     }
 
     /** Goodbye text for GUI to show at the end */
@@ -78,10 +78,16 @@ public class Salah {
             if (input.startsWith(CommandType.DEADLINE.getKeyword())) {
                 try {
                     Deadlines d = Deadlines.parser(input);
+
+                    if (userTasks.contains(d)) {
+                        return "Unable to add task: \"" + d.getDescription() + "\" is already present.";
+                    }
+
                     userTasks.add(d);
                     Storage.save(userTasks);
                     return "Got it. I've added this task:\n" + d + "\nThe Egyptian King detects "
                             + userTasks.size() + " tasks in your list!";
+
                 } catch (EmptyDescriptionException | TaskFormattingException e) {
                     return "Error: " + e.getMessage();
                 }
@@ -91,10 +97,16 @@ public class Salah {
             if (input.startsWith(CommandType.EVENT.getKeyword())) {
                 try {
                     Events ev = Events.parser(input);
+
+                    if (userTasks.contains(ev)) {
+                        return "Unable to add task: \"" + ev.getDescription() + "\" is already present.";
+                    }
+
                     userTasks.add(ev);
                     Storage.save(userTasks);
                     return "Got it. I've added this task:\n" + ev + "\nThe Egyptian King detects "
                             + userTasks.size() + " tasks in your list!";
+
                 } catch (EmptyDescriptionException | TaskFormattingException e) {
                     return "Error: " + e.getMessage();
                 }
@@ -125,9 +137,14 @@ public class Salah {
 
             // default → treat as ToDo
             ToDos todo = ToDos.parser(input);
+            if (userTasks.contains(todo)) {
+                return "Unable to add task: \"" + todo.getDescription() + "\" is already present.";
+            }
+
             userTasks.add(todo);
             Storage.save(userTasks);
-            return "added: " + todo + "\nThe Egyptian King detects " + userTasks.size() + " tasks in your list!";
+            return "Got it. I've added this task:\n" + todo + "\nThe Egyptian King detects "
+                + userTasks.size() + " tasks in your list!";
 
         } catch (IndexOutOfBoundsException e) {
             return "Error: the input number has exceeded the number of tasks.";

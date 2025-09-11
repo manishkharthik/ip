@@ -93,4 +93,23 @@ public abstract class Task {
             default: return null;
         }
     }
+    /**
+     * Two tasks are considered equal if they have the same description.
+     * Completion status is not considered for equality.
+     *
+     * @param o the other object to compare against
+     * @return {@code true} if both tasks have the same description, {@code false} otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
+        Task other = (Task) o;
+        return description.equals(other.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return description.hashCode();
+    }
 }
