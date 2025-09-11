@@ -8,6 +8,7 @@ package salah;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 /**
  * Handles all interactions with the user.
@@ -67,27 +68,37 @@ public class Ui {
         System.out.println("Hope you have a great day! Remember, you'll never walk alone :))");
         showLine();
         try {
-            Thread.sleep(2000); // wait 2 seconds
+            Thread.sleep(1500); 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        System.exit(0); // terminate the JVM
+        System.exit(0); 
     }
 
     /**
-     * Displays the current list of tasks, one per line with an index.
+     * Checks if tasks are empty and displays them if not
      *
      * @param tasks the tasks to display
      */
     public void showList(List<Task> tasks) {
+        // Assumption: showList should never be called with an empty list
+        assert tasks != null : "Task list must not be null";
+        assert !tasks.isEmpty() : "Task list must not be empty when calling showList";
+
         showLine();
+        displayList(tasks);
+        showLine();
+    }
+
+    /**
+     * Displays the list of tasks.
+     *
+     * @param tasks the tasks to display
+     */
+    public void displayList(List<Task> tasks) {
         System.out.println("The Egyptian King has these tasks for you to complete:");
-        int i = 1;
-        for (Task t : tasks) {
-            System.out.println(i + ". " + t.toString());
-            i++;
-        }
-        showLine();
+        IntStream.range(0, tasks.size())
+             .forEach(i -> System.out.println((i + 1) + ". " + tasks.get(i)));
     }
 
     /**
@@ -142,24 +153,35 @@ public class Ui {
     }
 
     /**
-     * Displays tasks whose description contains the given keyword.
+     * Checks if description contains the given keyword for any given task.
      *
      * @param keyword the keyword to search for
      * @param matches list of tasks matching the keyword
      */
     public void showFindResults(String keyword, List<Task> matches) {
+        // Assumption: keyword must not be null or empty
+        assert keyword != null : "Search keyword must not be null";
+        assert !keyword.trim().isEmpty() : "Search keyword must not be empty";
+
         showLine();
         if (matches.isEmpty()) {
             System.out.println("No tasks found matching: " + keyword);
         } else {
-            System.out.println("Here are the matching tasks with keyword \"" + keyword + "\":");
-            int i = 1;
-            for (Task t : matches) {
-                System.out.println(i + ". " + t);
-                i++;
-            }
+            showMatches(keyword, matches);
         }
         showLine();
+    }
+
+    /**
+     * Displays tasks whose description contains the given keyword.
+     *
+     * @param keyword the keyword to search for
+     * @param matches list of tasks matching the keyword
+     */
+    public void showMatches(String keyword, List<Task> matches) {
+        System.out.println("Here are the matching tasks with keyword \"" + keyword + "\":");
+        IntStream.range(0, matches.size())
+             .forEach(i -> System.out.println((i + 1) + ". " + matches.get(i)));
     }
 
     /** Close resources when app exits. */

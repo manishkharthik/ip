@@ -29,7 +29,6 @@ public class ToDos extends Task {
     public static ToDos parser(String input) throws EmptyDescriptionException {
         String description;
         if (input.toLowerCase().startsWith("todo")) {
-            // if input is exactly "todo" or "todo " then description is empty
             if (input.length() <= 4) {
                 description = "";
             } else {

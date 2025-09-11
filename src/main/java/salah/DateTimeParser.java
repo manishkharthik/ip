@@ -49,19 +49,21 @@ public final class DateTimeParser {
 
         // try datetime first
         for (DateTimeFormatter fmt : DATE_TIME_PATTERNS) {
-            try { return LocalDateTime.parse(s, fmt); } catch (DateTimeParseException ignored) {}
+            try { 
+                return LocalDateTime.parse(s, fmt); 
+            } catch (DateTimeParseException ignored) {
+                // Expected: move on to next formatter
+            }
         }
         // then date-only → atStartOfDay
         for (DateTimeFormatter fmt : DATE_ONLY_PATTERNS) {
-            try { return LocalDate.parse(s, fmt).atStartOfDay(); } catch (DateTimeParseException ignored) {}
+            try { return LocalDate.parse(s, fmt).atStartOfDay(); 
+            } catch (DateTimeParseException ignored) {
+                // Expected: move on to next formatter
+            }
         }
         // last resort: fail clearly
         throw new IllegalArgumentException("Unrecognized date/time format: \"" + raw + "\"");
-    }
-
-    // Pretty print: date only (e.g., Oct 15 2019)
-    public static String formatDate(LocalDate date) {
-        return date.format(DateTimeFormatter.ofPattern("MMM dd uuuu"));
     }
 
     /**
