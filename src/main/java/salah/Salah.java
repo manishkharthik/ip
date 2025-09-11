@@ -37,7 +37,6 @@ public class Salah {
                 return getFarewell();
             }
 
-
             // LIST
             if (input.equals(CommandType.LIST.getKeyword())) {
                 if (userTasks.isEmpty()) return "Your list is empty.";
@@ -108,13 +107,15 @@ public class Salah {
                     return "Please provide a keyword to search for.";
                 }
                 String keyword = parts[1].trim().toLowerCase();
-                List<Task> matches = new ArrayList<>();
-                for (Task t : userTasks) {
-                    if (t.getDescription().toLowerCase().contains(keyword)) {
-                        matches.add(t);
-                    }
+                
+                List<Task> matches = userTasks.stream()
+                    .filter(t -> t.getDescription().toLowerCase().contains(keyword))
+                    .toList();
+
+                if (matches.isEmpty()) {
+                    return "No tasks found matching: " + keyword;
                 }
-                if (matches.isEmpty()) return "No tasks found matching: " + keyword;
+
                 StringBuilder sb = new StringBuilder("Here are the matching tasks with keyword \"" + keyword + "\":\n");
                 for (int i = 0; i < matches.size(); i++) {
                     sb.append(String.format("%d. %s%n", i + 1, matches.get(i)));
