@@ -6,7 +6,6 @@
 package salah;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Event task with start and end times.
@@ -14,8 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class Events extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;
-    private static final DateTimeFormatter PRETTY_DATE = DateTimeFormatter.ofPattern("MMM dd uuuu");
-
+    
     /**
      * Constructs an {@code Events} task.
      *
@@ -52,7 +50,14 @@ public class Events extends Task {
         if (!input.contains("/from") || !input.contains("/to")) {
             throw new TaskFormattingException("Invalid event format. Make sure to include /from and /to");
         }
+        // Assumption: input starts with "event"
+        assert input.toLowerCase().startsWith("event") : "Input must start with 'event' keyword";
+        
         String[] parts = input.substring(6).split("/from|/to");
+        
+        // Assumption: parts must have exactly 3 elements: {description, from, to}
+        assert parts.length == 3 : "Event input should split into exactly 3 parts";
+        
         String description = parts[0].trim();
         String from = parts[1].trim();
         String to = parts[2].trim();
@@ -69,6 +74,9 @@ public class Events extends Task {
 
         LocalDateTime fromDate = DateTimeParser.parseFlexible(from);
         LocalDateTime toDate = DateTimeParser.parseFlexible(to);
+
+        // Assumption: end date/time should not be before start
+        assert !toDate.isBefore(fromDate) : "Event end time must be after start time";
 
         return new Events(description, fromDate, toDate);
     }

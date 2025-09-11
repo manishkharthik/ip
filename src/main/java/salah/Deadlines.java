@@ -6,11 +6,9 @@
 package salah;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Deadlines extends Task {
    private final LocalDateTime by;
-   private static final DateTimeFormatter PRETTY_DATE = DateTimeFormatter.ofPattern("MMM dd uuuu");
 
    /**
     * Constructs a new deadline task.
@@ -44,7 +42,14 @@ public class Deadlines extends Task {
       if (!input.contains("/by")) {
          throw new TaskFormattingException("Invalid deadline format. Make sure to include /by");
       } else {
+         // Assumption: input starts with "deadline"
+         assert input.toLowerCase().startsWith("deadline") : "Input must start with 'deadline' keyword";
+         
          String[] parts = input.substring(8).split("/by", 2);
+
+         // Assumption: parts must have exactly 2 elements: {description, byString}
+         assert parts.length == 2 : "Deadline input should split into exactly 2 parts";
+
          String description = parts[0].trim();
          String byString = parts[1].trim();
 
