@@ -8,12 +8,14 @@ Salah is your personal chatbot assistant, inspired by the Egyptian King! It help
 
 1. Ensure you have **Java 17** (or higher) and **Gradle** installed.
 2. Clone this repository:
-   ```bash
+   ```
    git clone https://github.com/<your-username>/<your-repo>.git
    cd <your-repo>
+   ```
 3. Run the application
-    ```bash
+    ```
     ./gradlew run
+    ```
 Salah will launch in a JavaFX window with an input bar at the bottom and a scrollable task display
 
 ## Adding tasks
@@ -42,8 +44,8 @@ Expected outcome:
 Got it. I've added this task:
 [D][] Submit report (by: Sep 21 2025, 11.59 pm)
 ```
-<ins>DATE</ins> must be in yyyy-MM-dd or d/M/yyyy format (e.g., 2025-09-21 or 21/9/2025)
-<ins>TIME</ins> is optional, in 24-hour HHmm or HH:mm format (e.g., 2359 or 23:59)
+- <ins>DATE</ins> must be in yyyy-MM-dd or d/M/yyyy format (e.g., 2025-09-21 or 21/9/2025)
+- <ins>TIME</ins> is optional, in 24-hour HHmm or HH:mm format (e.g., 2359 or 23:59)
 
 Use the **event** command to add tasks that span a start and end time
 ```
@@ -54,9 +56,9 @@ Expected outcome:
 Got it. I've added this task:
 [E][] Team meeting (from: Sep 20 2025, 2:00 pm to: Sep 20 2025, 4:00 pm)
 ```
-<ins>DATE</ins> must be in yyyy-MM-dd or d/M/yyyy format
-<ins>TIME</ins> is optional but recommended; use 24-hour HHmm or HH:mm
-<ins>/from</ins> must come before <ins>/to</ins>
+- <ins>DATE</ins> must be in yyyy-MM-dd or d/M/yyyy format
+- <ins>TIME</ins> is optional but recommended; use 24-hour HHmm or HH:mm
+- <ins>/from</ins> must come before <ins>/to</ins>
 
 ## Listing tasks
 
