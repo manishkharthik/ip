@@ -86,12 +86,12 @@ public abstract class Task {
     public static Task deserialize(String line) {
         String[] parts = line.split("\\|");
         for (int i = 0; i < parts.length; i++) parts[i] = parts[i].trim();
-        switch (parts[0]) {
-            case "T": return ToDos.fromData(parts);
-            case "D": return Deadlines.fromData(parts);
-            case "E": return Events.fromData(parts);
-            default: return null;
-        }
+        return switch (parts[0]) {
+            case "T" -> ToDos.fromData(parts);
+            case "D" -> Deadlines.fromData(parts);
+            case "E" -> Events.fromData(parts);
+            default -> null;
+        };
     }
     /**
      * Two tasks are considered equal if they have the same description.
